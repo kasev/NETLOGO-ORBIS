@@ -6,7 +6,6 @@ extensions [ gis nw vid]
 globals [
           orbnetwork-dataset ;;network from orbis
           provinces-dataset  ;; polygon dataset of roman provinces, including additional information concerning cities let by Wilson in anonymity
-          connections-dataset ;; routes created to make the transportation network complete
 
           wilson-dataset    ;; point dataset coded by VK on the basis of Wilson's article
           orbsites-dataset;; point dataset of sites from orbis, except of the sites marking crossroads

@@ -6,11 +6,9 @@ extensions [ gis nw vid]
 globals [
           orbnetwork-dataset ;;network from orbis
           provinces-dataset  ;; polygon dataset of roman provinces, including additional information concerning cities let by Wilson in anonymity
-          connections-dataset ;; routes created to make the transportation network complete
 
           wilson-dataset    ;; point dataset coded by VK on the basis of Wilson's article
           orbsites-dataset;; point dataset of sites from orbis, except of the sites marking crossroads
-          orbwilsites-dataset
 
           road-ratio  ;; do I use it?
           sea-ratio    ;; do I use it?
@@ -452,41 +450,6 @@ to save-recording
   ]
 end
 
-; old, oversimlistic version:
-;  if all? ids with [pop > 0] [infected?] [stop]                                 ;;; Stops the simulation after the diffusion will reach all cities.
-; ask one-of ids with [name = "Ierusalem"] [set color green]
-;  ask ids with [pop > 0 and color = green]                  ;;; the diffusion can start just from cities which are already "infected"
-;   [
-;     set my-close min-n-of 5 other ids with [pop > 0] [distance myself]
-;     let my-distance
-;      create-helpings-with n-of 10 other ids with [pop > 0]
-;      ask one-of out-link-neighbors with [pop > 0] [
-;        set color green
-;        set infected? true]
-;
-;  tick
-;  ;;;;;;
-;  ask one-of ids with [name = "Ierusalem"] [set color green]
-;  ask ids with [pop > 0 and color = green]                  ;;; the diffusion can start just from cities which are already "infected"
-;    [
-;      create-helpings-with n-of 10 other ids with [pop > 0]
-;      ask one-of out-link-neighbors with [pop > 0] with-min [distance myself]  [set color green]
-;      ask helpings [die]
-;    ]
-
-
-
-;to produce-connections-into-new-dataset ;; used to produce the connections from the uncomplete network; instead of generated over and over, these are uploaded from outside
-;  ask ids with [pop < 1 and count my-links = 0] [die]
-;  ask ids with [pop < 1 and count my-links < 2] [
-;    create-connections-with min-n-of 2 other ids [distance myself]
-;    ]
-;  ask ids with [pop > 0] [
-;    create-connections-with min-n-of 1 other ids with [xcor != [xcor] of myself and ycor != [ycor] of myself] [distance myself]
-;  ]
-;  set connections-dataset gis:link-dataset connections
-;  gis:store-dataset connections-dataset "data/supportive-roads"
-;end
 @#$#@#$#@
 GRAPHICS-WINDOW
 5
