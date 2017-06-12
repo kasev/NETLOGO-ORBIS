@@ -5,11 +5,9 @@ extensions [ gis nw vid]
 
 globals [
           orbnetwork-dataset ;;network from orbis
-          provinces-dataset  ;; polygon dataset of roman provinces, including additional information concerning cities let by Wilson in anonymity
-
+          provinces-dataset  ;; polygon dataset of roman provinces, including additional information on the count of anonymous they include mentioned by Wilson
           wilson-dataset    ;; point dataset coded by VK on the basis of Wilson's article
           orbsites-dataset;; point dataset of sites from orbis, except of the sites marking crossroads
-          orbwilsites-dataset
 
           road-ratio  ;; do I use it?
           sea-ratio    ;; do I use it?
@@ -450,42 +448,6 @@ to save-recording
     user-message error-message
   ]
 end
-
-; old, oversimlistic version:
-;  if all? ids with [pop > 0] [infected?] [stop]                                 ;;; Stops the simulation after the diffusion will reach all cities.
-; ask one-of ids with [name = "Ierusalem"] [set color green]
-;  ask ids with [pop > 0 and color = green]                  ;;; the diffusion can start just from cities which are already "infected"
-;   [
-;     set my-close min-n-of 5 other ids with [pop > 0] [distance myself]
-;     let my-distance
-;      create-helpings-with n-of 10 other ids with [pop > 0]
-;      ask one-of out-link-neighbors with [pop > 0] [
-;        set color green
-;        set infected? true]
-;
-;  tick
-;  ;;;;;;
-;  ask one-of ids with [name = "Ierusalem"] [set color green]
-;  ask ids with [pop > 0 and color = green]                  ;;; the diffusion can start just from cities which are already "infected"
-;    [
-;      create-helpings-with n-of 10 other ids with [pop > 0]
-;      ask one-of out-link-neighbors with [pop > 0] with-min [distance myself]  [set color green]
-;      ask helpings [die]
-;    ]
-
-
-
-;to produce-connections-into-new-dataset ;; used to produce the connections from the uncomplete network; instead of generated over and over, these are uploaded from outside
-;  ask ids with [pop < 1 and count my-links = 0] [die]
-;  ask ids with [pop < 1 and count my-links < 2] [
-;    create-connections-with min-n-of 2 other ids [distance myself]
-;    ]
-;  ask ids with [pop > 0] [
-;    create-connections-with min-n-of 1 other ids with [xcor != [xcor] of myself and ycor != [ycor] of myself] [distance myself]
-;  ]
-;  set connections-dataset gis:link-dataset connections
-;  gis:store-dataset connections-dataset "data/supportive-roads"
-;end
 @#$#@#$#@
 GRAPHICS-WINDOW
 5
@@ -517,7 +479,7 @@ ticks
 BUTTON
 606
 16
-757
+770
 50
 NIL
 setup-environment
@@ -564,10 +526,10 @@ ask one-of ids with [name = \"Roma\"] [show nw:weighted-distance-to one-of ids w
 1
 
 BUTTON
-609
-101
-747
-134
+877
+106
+1015
+139
 NIL
 setup-simulation
 NIL
@@ -581,10 +543,10 @@ NIL
 1
 
 BUTTON
-612
-143
-675
-176
+1019
+106
+1082
+139
 NIL
 go
 T
@@ -598,10 +560,10 @@ NIL
 0
 
 BUTTON
-610
-58
-754
-91
+877
+68
+1021
+101
 NIL
 complete-network
 NIL
@@ -615,10 +577,10 @@ NIL
 1
 
 SLIDER
-604
-252
-776
-285
+1066
+195
+1238
+228
 max-distance
 max-distance
 0
@@ -630,10 +592,10 @@ NIL
 HORIZONTAL
 
 MONITOR
-634
-353
-774
-398
+877
+180
+989
+225
 NIL
 count disseminators
 17
@@ -641,10 +603,10 @@ count disseminators
 11
 
 MONITOR
-638
-414
-748
-459
+878
+232
+988
+277
 NIL
 count churches
 17
@@ -652,10 +614,10 @@ count churches
 11
 
 BUTTON
-949
-119
-1070
-152
+1110
+376
+1231
+409
 NIL
 start-recorder
 NIL
@@ -669,10 +631,10 @@ NIL
 1
 
 BUTTON
-951
-172
-1078
-205
+1112
+429
+1239
+462
 NIL
 save-recording\n
 NIL
@@ -686,10 +648,10 @@ NIL
 1
 
 MONITOR
-949
-213
-1083
-258
+1110
+470
+1244
+515
 NIL
 vid:recorder-status
 17
@@ -697,19 +659,114 @@ vid:recorder-status
 11
 
 SLIDER
-806
-76
-978
-109
+608
+56
+769
+89
 radius-size
 radius-size
 0
 10
-2.0
+3.0
 1
 1
 NIL
 HORIZONTAL
+
+MONITOR
+730
+242
+796
+287
+orbsites
+count orbcities
+17
+1
+11
+
+MONITOR
+730
+190
+798
+235
+wilcities
+count wilcities
+17
+1
+11
+
+MONITOR
+612
+294
+697
+339
+merged cities
+count orbcities with [color = green]
+17
+1
+11
+
+MONITOR
+701
+294
+771
+339
+anom cities
+count orbcities with [color = blue]
+17
+1
+11
+
+BUTTON
+609
+98
+768
+131
+orbwilsites-only
+ask orbwilsites [set hidden? false]\nask orbcities [set hidden? true]\nask wilcities [set hidden? true]\n
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+612
+253
+724
+286
+orbcities-only
+ask orbwilsites [set hidden? true]\nask orbcities [set hidden? false]\nask wilcities [set hidden? true]
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+611
+202
+724
+235
+wilcities-only
+ask orbwilsites [set hidden? true] \nask orbcities [set hidden? true]\nask wilcities [set hidden? false]
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
