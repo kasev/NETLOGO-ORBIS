@@ -4,7 +4,7 @@ extensions [ gis nw vid]
 ;; the vid extension represents a simple way how to produce movies from the simulation
 
 globals [
-          orbnetwork-dataset ;;network from orbis
+          orbnetwork-dataset ;; network from orbis
           provinces-dataset  ;; polygon dataset of roman provinces, including additional information on the count of anonymous they include mentioned by Wilson
           wilson-dataset    ;; point dataset coded by VK on the basis of Wilson's article
           orbsites-dataset;; point dataset of sites from orbis, except of the sites marking crossroads
@@ -210,6 +210,11 @@ to find-anonymous
     ]
 end
 
+; There is still a missing procedure to identify reg centers for Spain and Britain
+;to adjust-reg-cents
+;
+;end
+
 to generate-orbwilsites ;; generates a new set of cities, combining features from wilson and orbis
   ask orbcities with [color = blue or color = green][ ; consider only cities with either given or attributed population
     hatch-orbwilsites 1 [
@@ -231,7 +236,7 @@ to generate-orbwilsites ;; generates a new set of cities, combining features fro
 
   ask orbwilsites [
     set shape "circle"
-    set size sqrt (pop / 1000)
+    set size sqrt (pop / 2000)
     set color white
 
     hatch-ids 1 [ ;;; to work with the network extension, we need all turtles considered to be part of the same breed. Therefore, we create new ids, equepped by properties of their parent orbwisites
@@ -494,10 +499,10 @@ NIL
 1
 
 MONITOR
-185
-18
-311
-63
+1083
+10
+1135
+55
 links
 count links
 17
@@ -505,10 +510,10 @@ count links
 11
 
 MONITOR
-320
-17
-378
-62
+1019
+11
+1077
+56
 ids
 count ids
 17
@@ -520,7 +525,7 @@ TEXTBOX
 462
 775
 546
-ask one-of ids with [name = \"Roma\"] [show nw:weighted-distance-to one-of ids with [name = \"Ierusalem\"] my-ratio-distance]
+NIL
 11
 0.0
 1
@@ -560,10 +565,10 @@ NIL
 0
 
 BUTTON
-877
-68
-1021
-101
+868
+10
+1012
+43
 NIL
 complete-network
 NIL
@@ -577,10 +582,10 @@ NIL
 1
 
 SLIDER
-1066
-195
-1238
-228
+877
+142
+1049
+175
 max-distance
 max-distance
 0
@@ -615,9 +620,9 @@ count churches
 
 BUTTON
 1110
-376
-1231
-409
+392
+1238
+425
 NIL
 start-recorder
 NIL
@@ -666,18 +671,18 @@ SLIDER
 radius-size
 radius-size
 0
-10
+7
 3.0
-1
+0.1
 1
 NIL
 HORIZONTAL
 
 MONITOR
-730
-242
-796
-287
+731
+295
+797
+340
 orbsites
 count orbcities
 17
@@ -685,10 +690,10 @@ count orbcities
 11
 
 MONITOR
-730
-190
-798
-235
+731
+243
+799
+288
 wilcities
 count wilcities
 17
@@ -696,10 +701,10 @@ count wilcities
 11
 
 MONITOR
-612
-294
-697
-339
+699
+349
+787
+394
 merged cities
 count orbcities with [color = green]
 17
@@ -707,10 +712,10 @@ count orbcities with [color = green]
 11
 
 MONITOR
-701
-294
-771
-339
+612
+408
+697
+453
 anom cities
 count orbcities with [color = blue]
 17
@@ -735,10 +740,10 @@ NIL
 1
 
 BUTTON
-612
-253
-724
-286
+613
+306
+725
+339
 orbcities-only
 ask orbwilsites [set hidden? true]\nask orbcities [set hidden? false]\nask wilcities [set hidden? true]
 NIL
@@ -752,10 +757,10 @@ NIL
 1
 
 BUTTON
-611
-202
-724
-235
+612
+255
+725
+288
 wilcities-only
 ask orbwilsites [set hidden? true] \nask orbcities [set hidden? true]\nask wilcities [set hidden? false]
 NIL
@@ -767,6 +772,39 @@ NIL
 NIL
 NIL
 1
+
+MONITOR
+612
+349
+700
+394
+assimilators
+count assimilators
+17
+1
+11
+
+MONITOR
+715
+135
+785
+180
+urban pop
+sum [pop] of orbwilsites
+17
+1
+11
+
+MONITOR
+610
+134
+713
+179
+NIL
+count orbwilsites
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
