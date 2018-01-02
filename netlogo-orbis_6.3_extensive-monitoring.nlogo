@@ -4,44 +4,59 @@ extensions [ gis nw vid]
 ;; the vid extension represents a simple way how to produce movies from the simulation
 
 globals [
-          orbnetwork-dataset ;; network from orbis
-          provinces-dataset  ;; polygon dataset of roman provinces, including additional information on the count of anonymous they include mentioned by Wilson
+
           wilson-dataset    ;; point dataset coded by VK on the basis of Wilson's article
           orbsites-dataset;; point dataset of sites from orbis, except of the sites marking crossroads
+          orbnetwork-dataset ;; network from orbis
+          provinces-dataset  ;; polygon dataset of roman provinces, including additional information on the count of anonymous they include mentioned by Wilson '
 
-          road-ratio  ;; do I use it?
-          sea-ratio    ;; do I use it?
-          river-ratio   ;; do I use it?
+          road-ratio  ;; not used at this point
+          sea-ratio    ;; not used at this point
+          river-ratio   ;; not used at this point
           ]
 
-breed [ids id ] ; all nodes in the network, including cities, which differ from other nodes by having population bigger than 0, i.e. ids with [pop > 0]
+breed [ids id ] ; all nodes in the network, including cities - these differ from other nodes by having population bigger than 0, i.e. ids with [pop > 0]
 
 breed [ wilcities wilcity ]
 breed [ orbcities orbcity ]
 
 breed [orbwilsites orbwilsite] ; uploaded dataset of sites combining orbis and Wilson population sizes
-breed [provinces province] ;
+breed [provinces province] ; polygon entities from provinces dataset, including information concerning anonymous cities and their population in given provinces
 
 ;; entities related to the diffusion process:
 
 breed [churches church] ; to be sprouted in individual cities]
-breed [disseminators disseminator] ;; a wandering prophet, missionary or travelling bishop
-undirected-link-breed [routes route]
+breed [disseminators disseminator] ;; a wandering prophet, missionary, bishop or a book
+undirected-link-breed [routes route] ; everthing from the orbis network
 directed-link-breed [assimilators assimilator] ; a link helping with merging
-;undirected-link-breed [connections connection]
-; undirected-link-breed [helpings helping]
 
-patches-own [cost my-province anon-num anon-num-avr]
+patches-own [cost my-province anon-num anon-num-avr] ; the patches inherit certain variables from provinces which cover them
 
 ;; the two input datasets of sites
-wilcities-own [name wilpop]
-orbcities-own [name rank closest-wil-pop closest-wil-name my-avr-pop my-anon-num my-province-others]
+wilcities-own [
+  name
+  wilpop ;; population from Wilson's dataset
+  ]
 
-;;combined input dataset of sites
-orbwilsites-own [name wilname pop pop-type former-breed] ;; originally newsites
+orbcities-own [
+  name
+  rank ;; rank from orbis sites dataset
+  closest-wil-pop ;; if assimilated with a city from Wilson, population of this city from Wilson
+  closest-wil-name ;; if assimilated with a city from Wilson, name of this city from Wilson
+  my-avr-pop  ;; population size of anonymous cities in my province
+  my-anon-num ;; number of anonymous cities in my province
+  my-province-others] ;; number of other orbis cities in my province
 
-;; all  points upon the network; some of them fulfilling the role of cities
-ids-own [
+
+orbwilsites-own [ ;;combined input dataset of sites
+  name
+  wilname
+  pop
+  pop-type ;;how I gained my population size
+  former-breed] ;; of what type I was
+
+
+ids-own [ ;; all  points on the network; some of them fulfilling the role of cities
   my-type
   my-type-ratio
   my-orb-id
@@ -672,7 +687,7 @@ radius-size
 radius-size
 0
 7
-3.0
+4.5
 0.1
 1
 NIL
